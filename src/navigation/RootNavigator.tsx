@@ -7,7 +7,7 @@ import { useTheme } from '@react-navigation/native';
 
 export type RootStackParamList = {
   Products: undefined;
-  ProductDetails: { productId: string; productName?: string };
+  ProductDetails: { productId: string; productTitle?: string };
 };
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
@@ -28,7 +28,7 @@ export default function RootNavigator() {
         name={ROUTES.PRODUCTS_DETAILS}
         component={ProductDetails}
         options={({ route }) => ({
-          headerTitle: route.params.productName ?? 'Product Details',
+          headerTitle: route.params.productTitle ?? 'Product Details',
           headerBackTitleVisible: false,
           headerTintColor: colors.primary,
         })}

@@ -2,11 +2,18 @@ import { useQuery } from '@tanstack/react-query';
 import { useCallback, useState } from 'react';
 import { slowLittleBit } from '../utils/MockFns';
 
+export type Product = {
+  id: string;
+  title: string;
+  price: string;
+  image: string;
+};
+
 // custom hook for fetching products
 const useFetchProducts = () => {
   const { isLoading, error, data, refetch } = useQuery({
     queryKey: ['productsData'],
-    queryFn: () =>
+    queryFn: (): Promise<Product[]> =>
       fetch('https://fakestoreapi.com/products').then(res => res.json()),
   });
   const [refreshing, setRefreshing] = useState(false);
