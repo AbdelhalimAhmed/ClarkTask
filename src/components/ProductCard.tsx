@@ -1,9 +1,8 @@
 import React from 'react';
 import { Text, StyleSheet, Pressable, Image, View } from 'react-native';
 import { Product } from '../api/useFetchProducts';
-import { spacing, borderRadius } from '../attributes';
+import { spacing, borderRadius, fontSize } from '../attributes';
 import { useCurrentTheme } from '../utils/customHooks';
-import fontSize from '../attributes/fontSize';
 
 interface ProductCardProps {
   product: Product;
