@@ -1,4 +1,10 @@
-import { DarkTheme, DefaultTheme } from '@react-navigation/native';
+import { DarkTheme, DefaultTheme, Theme } from '@react-navigation/native';
+
+export type CustomTheme = {
+  colors: {
+    productCardBg: string;
+  };
+} & Theme;
 
 export default {
   defaultTheme: {
@@ -6,9 +12,14 @@ export default {
     colors: {
       ...DefaultTheme.colors,
       primary: '#0439d7',
+      productCardBg: '#FFF',
     },
   },
   darkTheme: {
     ...DarkTheme,
+    colors: {
+      ...DarkTheme.colors,
+      productCardBg: '#000',
+    },
   },
 };
