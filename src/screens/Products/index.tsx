@@ -18,8 +18,6 @@ function Products() {
   const { isLoading, error, data, onRefresh, refreshing, initialData } =
     useFetchProducts();
 
-  console.log(JSON.stringify({ isLoading, error, data, refreshing }, null, 2));
-
   // used debounce here as a precaution for potential use of a search request API,
   // with the aim of minimizing the frequency of API calls.
   const searchProduct = debounce((text: string) => {

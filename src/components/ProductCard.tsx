@@ -20,7 +20,6 @@ const ProductCard: React.FC<ProductCardProps> = ({
   onProductPress,
 }) => {
   const { colors } = useCurrentTheme();
-  console.log({ colors });
   const handleCardPress = () => {
     onProductPress(product);
   };
