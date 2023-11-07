@@ -21,7 +21,7 @@ function ProductDetails() {
   if (isLoading || error) {
     return (
       <View style={styles.container}>
-        {isLoading ? <ActivityIndicator /> : <Text>Error</Text>}
+        {isLoading ? <ActivityIndicator /> : <Text>{error}</Text>}
       </View>
     );
   }

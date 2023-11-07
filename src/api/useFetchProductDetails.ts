@@ -1,4 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
+import mapError, { ResponseError } from './mapError';
+import { BASE_URL } from './constants';
 
 export type ProductDetails = {
   id: string;
@@ -8,19 +10,26 @@ export type ProductDetails = {
   description: string;
 };
 
+const fetchProductDetails = async (
+  productId: string,
+): Promise<ProductDetails> => {
+  const response = await fetch(`${BASE_URL}/products/${productId}`);
+  if (!response.ok) {
+    throw new ResponseError('Failed to fetch product details', response);
+  }
+  return await response.json();
+};
+
 // custom hook for fetching product details
 const useFetchProductDetails = (productId: string) => {
   const { isLoading, error, data } = useQuery({
     queryKey: ['productsData', productId],
-    queryFn: (): Promise<ProductDetails> =>
-      fetch(`https://fakestoreapi.com/products/${productId}`).then(res =>
-        res.json(),
-      ),
+    queryFn: () => fetchProductDetails(productId),
   });
 
   return {
     isLoading,
-    error,
+    error: mapError(error),
     data,
   };
 };

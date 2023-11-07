@@ -1,26 +1,46 @@
-import React from 'react';
+import React, { useLayoutEffect } from 'react';
 import { Text, View, ActivityIndicator } from 'react-native';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { useNavigation } from '@react-navigation/native';
 
+import { queryClient } from '../../../App';
 import { RootStackParamList } from '../../navigation/RootNavigator';
 import ROUTES from '../../navigation/routes';
 import useFetchProducts, { Product } from '../../api/useFetchProducts';
 import { ProductList } from '../../components';
+import { debounce } from '../../utils/helper';
 import styles from './styles';
 
 type ProductsProps = NativeStackScreenProps<RootStackParamList, 'Products'>;
 
 function Products() {
-  const { navigate } = useNavigation<ProductsProps['navigation']>();
-  const { isLoading, error, data, onRefresh, refreshing } = useFetchProducts();
+  const { navigate, setOptions } = useNavigation<ProductsProps['navigation']>();
+  const { isLoading, error, data, onRefresh, refreshing, initialData } =
+    useFetchProducts();
 
   console.log(JSON.stringify({ isLoading, error, data, refreshing }, null, 2));
+
+  // used debounce here as a precaution for potential use of a search request API,
+  // with the aim of minimizing the frequency of API calls.
+  const searchProduct = debounce((text: string) => {
+    const resultProducts = initialData?.filter(prod =>
+      prod.title.includes(text),
+    );
+    queryClient.setQueryData(['productsData'], resultProducts);
+  }, 600);
+
+  useLayoutEffect(() => {
+    setOptions({
+      headerSearchBarOptions: {
+        onChangeText: e => searchProduct(e.nativeEvent.text),
+      },
+    });
+  }, [searchProduct, setOptions]);
 
   if (isLoading || error) {
     return (
       <View style={styles.container}>
-        {isLoading ? <ActivityIndicator /> : <Text>Error</Text>}
+        {isLoading ? <ActivityIndicator /> : <Text>{error}</Text>}
       </View>
     );
   }

@@ -41,7 +41,7 @@ const ProductList: React.FC<ProductListProps> = ({
       }
       ListEmptyComponent={<EmptyList />}
       contentContainerStyle={styles.contentContainerStyle}
-      contentInsetAdjustmentBehavior="automatic"
+      contentInsetAdjustmentBehavior={products?.length ? 'automatic' : 'never'}
       numColumns={2}
     />
   );
@@ -55,7 +55,7 @@ const styles = StyleSheet.create({
   noProductContainer: {
     flex: 1,
     alignItems: 'center',
-    justifyContent: 'center',
+    justifyContent: 'center'
   },
 });
 
