@@ -1,8 +1,9 @@
 import React, { useCallback } from 'react';
-import { View, Text, StyleSheet, FlatList, RefreshControl } from 'react-native';
+import { View, StyleSheet, FlatList, RefreshControl } from 'react-native';
 import { Product } from '../api/useFetchProducts';
 import ProductCard from './ProductCard';
 import spacing from '../attributes/spacing';
+import StyledText from './StyledText';
 
 interface ProductListProps {
   products?: Product[];
@@ -13,7 +14,7 @@ interface ProductListProps {
 
 const EmptyList = () => (
   <View style={styles.noProductContainer}>
-    <Text>No Products Found</Text>
+    <StyledText>No Products Found</StyledText>
   </View>
 );
 

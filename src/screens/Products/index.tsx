@@ -24,7 +24,7 @@ function Products() {
   // with the aim of minimizing the frequency of API calls.
   const searchProduct = debounce((text: string) => {
     const resultProducts = initialData?.filter(prod =>
-      prod.title.includes(text),
+      prod.title.toLowerCase().includes(text.toLowerCase()),
     );
     queryClient.setQueryData(['productsData'], resultProducts);
   }, 600);

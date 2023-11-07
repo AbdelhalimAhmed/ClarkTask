@@ -2,7 +2,13 @@ import React from 'react';
 import { Text, View, ActivityIndicator, ScrollView, Image } from 'react-native';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { useRoute } from '@react-navigation/native';
+import Animated, {
+  FadeInRight,
+  FadeInDown,
+  FadeIn,
+} from 'react-native-reanimated';
 
+import { StyledText } from '../../components';
 import { RootStackParamList } from '../../navigation/RootNavigator';
 import useFetchProductDetails from '../../api/useFetchProductDetails';
 import { useCurrentTheme } from '../../utils/customHooks';
@@ -21,7 +27,7 @@ function ProductDetails() {
   if (isLoading || error) {
     return (
       <View style={styles.container}>
-        {isLoading ? <ActivityIndicator /> : <Text>{error}</Text>}
+        {isLoading ? <ActivityIndicator /> : <StyledText>{error}</StyledText>}
       </View>
     );
   }
@@ -32,26 +38,33 @@ function ProductDetails() {
       contentContainerStyle={styles.contentContainer}>
       {/* PRODUCT IMAGE */}
       {data?.image && (
-        <View style={[styles.imageContainer, { backgroundColor: colors.card }]}>
+        <Animated.View
+          entering={FadeIn}
+          style={[styles.imageContainer, { backgroundColor: colors.card }]}>
           <Image
             style={styles.image}
             source={{ uri: data.image }}
             resizeMode={'contain'}
           />
-        </View>
+        </Animated.View>
       )}
-      <View style={styles.details}>
+      <Animated.View style={styles.details} entering={FadeInRight}>
         {/* PRODUCT TITLE */}
-        <Text style={styles.name}>{data?.title}</Text>
+        <StyledText style={styles.name}>{data?.title}</StyledText>
         {/* PRODUCT PRICE */}
-        <Text style={styles.price}>
+        <StyledText style={styles.price}>
           Price: <Text style={{ color: colors.primary }}>{data?.price}$</Text>
-        </Text>
-      </View>
+        </StyledText>
+      </Animated.View>
       {/* PRODUCT DESCRIPTION */}
-      <Text style={[styles.description, { backgroundColor: colors.card }]}>
+      <Animated.Text
+        entering={FadeInDown}
+        style={[
+          styles.description,
+          { backgroundColor: colors.card, color: colors.text },
+        ]}>
         {data?.description}
-      </Text>
+      </Animated.Text>
     </ScrollView>
   );
 }

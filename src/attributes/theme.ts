@@ -19,7 +19,7 @@ export default {
     ...DarkTheme,
     colors: {
       ...DarkTheme.colors,
-      productCardBg: '#000',
+      productCardBg: 'rgb(18, 18, 18)',
     },
   },
 };
